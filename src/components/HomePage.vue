@@ -6,35 +6,19 @@
         clipped
         right
       >
-        <template v-slot:prepend>
-          <v-list-item two-line>
-            <v-list-item-avatar>
-              <img src="https://randomuser.me/api/portraits/women/81.jpg">
-            </v-list-item-avatar>
+      <template v-slot:prepend>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="https://randomuser.me/api/portraits/women/81.jpg">
+          </v-list-item-avatar>
 
-            <v-list-item-content>
-              <v-list-item-title>Jane Smith</v-list-item-title>
-              <v-list-item-subtitle>Logged In</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-
-        <v-divider></v-divider>
-
-        <v-list dense>
-          <v-list-item
-            v-for="item in items2"
-            :key="item.title"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+          <v-list-item-content>
+            <v-list-item-title>Jane Smith</v-list-item-title>
+            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+      <v-divider></v-divider>
       </v-navigation-drawer>
     <v-card max-width="344" class="mx-auto">
       <v-list-item>
@@ -45,12 +29,12 @@
           <v-icon>mdi-calendar </v-icon>
         </v-list-item-icon>
       </v-list-item>
-      <v-list-item-group  color="primary" class="list-events">
-        <template v-for="(item, index) in items">
+      <v-list-item-group color="primary" class="list-events" v-model="model">
+        <template v-for="(event, index) in events">
           <v-divider :key="index"></v-divider>
-          <v-list-item :key="item.eventId" three-line @click.stop="drawer = !drawer">
+          <v-list-item :key="event.eventId" three-line @click="openEventDrawer(event.eventId)">
             <v-list-item-content>
-              <v-list-item-title v-text="item.eventTitle"></v-list-item-title>
+              <v-list-item-title v-text="event.eventTitle"></v-list-item-title>
               <v-list-item-avatar color="red" class="user-avatar">
                 <span class="white--text headline">CJ</span>
               </v-list-item-avatar>
@@ -58,14 +42,14 @@
                   <v-list-item-icon>
                     <v-icon>mdi-calendar-range</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-subtitle v-text="getEventDate(item.start)"></v-list-item-subtitle>
+                  <v-list-item-subtitle v-text="getEventDate(event.start)"></v-list-item-subtitle>
                 </v-list-item>
                 <v-list-item class="event-details">
                   <v-list-item-icon>
                     <v-icon>mdi-clock</v-icon>
                   </v-list-item-icon>
                   <v-list-item-subtitle
-                    v-text="getEventTime(item.start, item.end)"
+                    v-text="getEventTime(event.start, event.end)"
                   >
                   </v-list-item-subtitle>
                 </v-list-item>
@@ -73,9 +57,9 @@
                   <v-list-item-icon>
                     <v-icon>mdi-map-marker</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-subtitle v-text="item.location"></v-list-item-subtitle>
+                  <v-list-item-subtitle v-text="event.location"></v-list-item-subtitle>
                 </v-list-item>
-              <v-list-item-subtitle v-text="item.description"></v-list-item-subtitle>
+              <v-list-item-subtitle v-text="event.description"></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -90,13 +74,14 @@ export default {
   data() {
     return {
       drawer: false,
-      item: 0,
-      items2: [
+      model: Number,
+      item: 1,
+      eventds: [
         { title: 'Home', icon: 'mdi-home-city' },
         { title: 'My Account', icon: 'mdi-account' },
         { title: 'Users', icon: 'mdi-account-group-outline' },
       ],
-      items: [
+      events: [
         {
           eventId: 54,
           eventTitle: 'Birthday',
@@ -149,6 +134,13 @@ export default {
       const s = new Date(start);
       const e = new Date(end);
       return `${s.toLocaleTimeString('en-US')} - ${e.toLocaleTimeString('en-US')}`;
+    },
+    openEventDrawer(index) {
+      console.log(`sd${index}`);
+      console.log(this.model);
+      if (this.drawer === false) {
+        this.drawer = true;
+      }
     },
   },
 };
