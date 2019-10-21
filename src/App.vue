@@ -16,18 +16,17 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+        <!-- If using vue-router -->
+        <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
   },
   data: () => ({
     //
